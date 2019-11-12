@@ -14,7 +14,7 @@ const baseURL = 'http://www.pangbing.top';
  */
 const service = axios.default.create({
   baseURL,
-  timeout: 0,
+  timeout: 60000,//超时时间设置为1分钟
   maxContentLength: 4000,
 });
 
