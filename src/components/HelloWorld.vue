@@ -9,6 +9,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
+
 // 在这里对数据进行类型约束
 export interface Post {
   title: string;
