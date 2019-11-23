@@ -1,10 +1,46 @@
 <template>
-  <el-select v-model="city">
-    <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value">
-      <span style="float: left">{{ item.label }}</span>
-      <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
-    </el-option>
-  </el-select>
+  <div>
+    <div style="display:inline-block;">
+      <el-select ref="select-city" v-model="city" @change="handleSelectChange" automatic-dropdown>
+        <el-option
+          v-for="item in cities"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+          class="self-define-item"
+        >
+          <el-row :gutter="10" style="line-height:25px;">
+            <el-col :span="8" align="left">
+              <span class="city-name">{{ item.value }}</span>
+              <span class="isrecommened"></span>
+            </el-col>
+            <el-col :span="16" align="right">
+              <el-tag
+                v-for="tag in item.labels"
+                :key="tag.label"
+                :type="tag.type===1?'danger':''"
+              >{{tag.label}}</el-tag>
+            </el-col>
+          </el-row>
+        </el-option>
+      </el-select>
+      <div class="selectresult" @click="handleClick">
+        <el-row :gutter="10" style="line-height:38px;">
+            <el-col :span="8" align="left">
+              <span class="city-name">{{ selected.value }}</span>
+              <span class="isrecommened"></span>
+            </el-col>
+            <el-col :span="16" align="right">
+              <el-tag
+                v-for="tag in selected.labels"
+                :key="tag.label"
+                :type="tag.type===1?'danger':''"
+              >{{tag.label}}</el-tag>
+            </el-col>
+          </el-row>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -13,36 +49,160 @@ export default {
   data() {
     return {
       city: "",
+      selected:{},
       cities: [
         {
           value: "Beijing",
-          label: "北京"
+          labels: [
+            {
+              label: "预计7日12：20可到",
+              type: 0
+            },
+            {
+              label: "总路耗1小时30分",
+              type: 0
+            },
+            {
+              label: "影响一单巡检",
+              type: 1
+            }
+          ]
         },
         {
           value: "Shanghai",
-          label: "上海"
+          labels: [
+            {
+              label: "总路耗1小时30分",
+              type: 0
+            },
+            {
+              label: "影响一单巡检",
+              type: 1
+            }
+          ]
         },
         {
           value: "Nanjing",
-          label: "南京"
+          labels: [
+            {
+              label: "预计7日12：20可到",
+              type: 0
+            },
+            {
+              label: "影响一单巡检",
+              type: 1
+            }
+          ]
         },
         {
           value: "Chengdu",
-          label: "成都"
+          labels: [
+            {
+              label: "预计7日12：20可到",
+              type: 0
+            },
+            {
+              label: "总路耗1小时30分",
+              type: 0
+            },
+            {
+              label: "影响一单巡检",
+              type: 1
+            }
+          ]
         },
         {
           value: "Shenzhen",
-          label: "深圳"
+          labels: [
+            {
+              label: "预计7日12：20可到",
+              type: 0
+            },
+            {
+              label: "总路耗1小时30分",
+              type: 0
+            },
+            {
+              label: "影响一单巡检",
+              type: 1
+            }
+          ]
         },
         {
           value: "Guangzhou",
-          label: "广州"
+          labels: [
+            {
+              label: "预计7日12：20可到",
+              type: 0
+            },
+            {
+              label: "总路耗1小时30分",
+              type: 0
+            },
+            {
+              label: "影响一单巡检",
+              type: 1
+            }
+          ]
         }
       ]
     };
+  },
+  methods: {
+    handleClick() {
+      this.$refs["select-city"].focus();
+    },
+    handleSelectChange(value) {
+      this.selected = this.cities && this.cities.filter(item => item.value === value)[0];
+    }
   }
 };
 </script>
 
 <style>
+.el-tag {
+  margin: 0 2px;
+  height: 22px;
+  line-height: 20px;
+  padding: 0 5px;
+}
+
+.city-name {
+  padding-right: 5px;
+}
+
+.el-select{
+  width:575px;
+}
+
+.selectresult {
+  height: 38px;
+  line-height: 34px;
+  width: 500px;
+  padding: 0 20px;
+  background-color: skyblue;
+  position: relative;
+  top: -39px;
+  left: 1px;
+}
+
+.self-define-item {
+  white-space: unset;
+  height: unset;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.isrecommened::after {
+  content: "荐";
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: rgba(255, 129, 0, 1);
+  color: #fff;
+}
 </style>
