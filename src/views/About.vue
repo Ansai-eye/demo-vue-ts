@@ -26,18 +26,21 @@
       </el-select>
       <div class="selectresult" @click="handleClick">
         <el-row :gutter="10" style="line-height:38px;">
-            <el-col :span="8" align="left">
-              <span class="city-name">{{ selected.value }}</span>
-              <span class="isrecommened"></span>
-            </el-col>
-            <el-col :span="16" align="right">
-              <el-tag
-                v-for="tag in selected.labels"
-                :key="tag.label"
-                :type="tag.type===1?'danger':''"
-              >{{tag.label}}</el-tag>
-            </el-col>
-          </el-row>
+          <el-col :span="8" align="left">
+            <span class="city-name" style="color:#606266" v-if="Object.keys(selected).indexOf('value')>-1">
+              {{selected.value}}
+            </span>
+            <span v-else class="placeholder">请选择</span>
+            <span class="isrecommened" v-if="Object.keys(selected).indexOf('value')>-1"></span>
+          </el-col>
+          <el-col :span="16" align="right">
+            <el-tag
+              v-for="tag in selected.labels"
+              :key="tag.label"
+              :type="tag.type===1?'danger':''"
+            >{{tag.label}}</el-tag>
+          </el-col>
+        </el-row>
       </div>
     </div>
   </div>
@@ -49,7 +52,7 @@ export default {
   data() {
     return {
       city: "",
-      selected:{},
+      selected: {},
       cities: [
         {
           value: "Beijing",
@@ -153,7 +156,8 @@ export default {
       this.$refs["select-city"].focus();
     },
     handleSelectChange(value) {
-      this.selected = this.cities && this.cities.filter(item => item.value === value)[0];
+      this.selected =
+        this.cities && this.cities.filter(item => item.value === value)[0];
     }
   }
 };
@@ -171,8 +175,14 @@ export default {
   padding-right: 5px;
 }
 
-.el-select{
-  width:575px;
+.placeholder{
+  color:#c3c3c3;
+  font-size: 13px;
+
+}
+
+.el-select {
+  width: 575px;
 }
 
 .selectresult {
@@ -180,10 +190,11 @@ export default {
   line-height: 34px;
   width: 500px;
   padding: 0 20px;
-  background-color: skyblue;
+  background-color: #fff;
   position: relative;
   top: -39px;
   left: 1px;
+  border-radius: 7px;
 }
 
 .self-define-item {
