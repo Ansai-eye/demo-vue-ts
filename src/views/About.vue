@@ -18,7 +18,9 @@
               <el-tag
                 v-for="tag in item.labels"
                 :key="tag.label"
-                :type="tag.type===1?'danger':''"
+                color="#fff"
+                size="small"
+                :class="tagClass(tag.type)"
               >{{tag.label}}</el-tag>
             </el-col>
           </el-row>
@@ -27,9 +29,11 @@
       <div class="selectresult" @click="handleClick">
         <el-row :gutter="10" style="line-height:38px;">
           <el-col :span="8" align="left">
-            <span class="city-name" style="color:#606266" v-if="Object.keys(selected).indexOf('value')>-1">
-              {{selected.value}}
-            </span>
+            <span
+              class="city-name"
+              style="color:#606266"
+              v-if="Object.keys(selected).indexOf('value')>-1"
+            >{{selected.value}}</span>
             <span v-else class="placeholder">请选择</span>
             <span class="isrecommened" v-if="Object.keys(selected).indexOf('value')>-1"></span>
           </el-col>
@@ -37,7 +41,9 @@
             <el-tag
               v-for="tag in selected.labels"
               :key="tag.label"
-              :type="tag.type===1?'danger':''"
+              color="#fff"
+              size="small"
+              :class="tagClass(tag.type)"
             >{{tag.label}}</el-tag>
           </el-col>
         </el-row>
@@ -158,6 +164,16 @@ export default {
     handleSelectChange(value) {
       this.selected =
         this.cities && this.cities.filter(item => item.value === value)[0];
+    },
+    tagClass(type) {
+      switch (type) {
+        case 0:
+          return "tag-green";
+        case 1:
+          return "tag-red";
+        default:
+          return "tag-green";
+      }
     }
   }
 };
@@ -166,19 +182,31 @@ export default {
 <style>
 .el-tag {
   margin: 0 2px;
-  height: 22px;
-  line-height: 20px;
   padding: 0 5px;
+}
+
+.tag-green {
+  color: #3ec68b;
+  border-color: #3ec68b;
+}
+
+.tag-orange {
+  color: #ff8100;
+  border-color: #ff8100;
+}
+
+.tag-red {
+  color: #fe3f3b;
+  border-color: #fe3f3b;
 }
 
 .city-name {
   padding-right: 5px;
 }
 
-.placeholder{
-  color:#c3c3c3;
+.placeholder {
+  color: #c3c3c3;
   font-size: 13px;
-
 }
 
 .el-select {
